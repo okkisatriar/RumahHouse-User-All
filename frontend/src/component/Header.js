@@ -30,10 +30,10 @@ class Header extends Component {
                         </ul>
                         <ul style={{ marginLeft: 900 }} className="navbar-nav mr-auto">
                             <li className="nav-item active">
-                                <a className="nav-link" href="/Login">Login</a>
+                                <Link className="nav-link" to="/Login">Login</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/Register">Register</a>
+                                <Link className="nav-link" to="/Register">Register</Link>
                             </li>
                             <li className="nav-item dropdown">
                                 <a
