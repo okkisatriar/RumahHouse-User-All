@@ -74,19 +74,17 @@ class Pasang_iklan extends Component {
     formData.append('status', this.state.status);
     formData.append('deskripsi', this.state.deskripsi);
 
-    axios.post('http://localhost:8002/dataiklan/', formData)
-      .then((hasil) => {
-        console.log('hasil', hasil)
-        var respon = hasil.statusText;
-        if (respon === "OK") {
-          < Modal />
-          this.setState({ submit: true, status: true })
-        } else {
-          this.setState({ fail: true })
-        }
-      })
+    axios.post('http://localhost:8002/dataiklan/', formData).then((hasil) => {
+      console.log('hasil', hasil)
+      var respon = hasil.statusText;
+      if (respon === "OK") {
+        < Modal />
+        this.setState({ submit: true, status: true })
+      } else {
+        this.setState({ fail: true })
+      }
+    })
   }
-
 
   render() {
     const tampilstatus = this.state.tarikstatus.map((isi, index) => {
@@ -171,8 +169,11 @@ class Pasang_iklan extends Component {
                       style={{ marginRight: 10 }}
                       onClick={() => this.handleCancel()}>Cancel
                     </button>
-                    <button type="submit" onClick={() => this.dataiklan(this.refs)} className="btn btn-primary">Simpan</button>
-
+                    <button
+                      type="submit"
+                      onClick={() => this.dataiklan(this.refs)}
+                      className="btn btn-primary">Simpan
+                    </button>
                   </form>
                 </div>
               </div>
