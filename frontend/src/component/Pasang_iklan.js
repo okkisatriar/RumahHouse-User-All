@@ -7,17 +7,20 @@ import Modal from './Modal';
 const cookies = new Cookies();
 class Pasang_iklan extends Component {
   state = {
-    tarikstatus: []
+    tarikstatus: [],
+    cancel: false
   }
 
   componentDidMount = () => {
+    this.getStatus();
+  }
+
+  getStatus = () => {
     axios.post('http://localhost:8002/tarikstatus').then((getData) => {
-      console.log(getData.data)
-      this.setState(
-        {
-          tarikstatus: getData.data
-        });
-    });
+      this.setState({
+        tarikstatus: getData.data
+      })
+    })
   }
 
   onchange = (e) => {
@@ -36,6 +39,10 @@ class Pasang_iklan extends Component {
         });
         break;
     }
+  }
+
+  handleCancel = () => {
+    this.setState({ cancel: true })
   }
 
   dataiklan = (e) => {
@@ -88,7 +95,7 @@ class Pasang_iklan extends Component {
       return <option key={index} value={id}>{status}</option>
     })
 
-    if (this.state.submit || this.state.fail) {
+    if (this.state.submit || this.state.fail || this.state.cancel) {
       return (
         <Redirect to="/Dashboard" />
       )
@@ -158,8 +165,13 @@ class Pasang_iklan extends Component {
                         <input name="foto_produk3" onChange={this.onchange} type="file" className="form-control" />
                       </div>
                     </div>
-                    <button type="reset" className="btn btn-warning">Cancel</button>&nbsp;
-                  <button type="submit" onClick={() => this.dataiklan(this.refs)} className="btn btn-primary">Simpan</button>
+                    <button
+                      type="reset"
+                      className="btn btn-warning"
+                      style={{ marginRight: 10 }}
+                      onClick={() => this.handleCancel()}>Cancel
+                    </button>
+                    <button type="submit" onClick={() => this.dataiklan(this.refs)} className="btn btn-primary">Simpan</button>
 
                   </form>
                 </div>
