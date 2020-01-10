@@ -2,15 +2,20 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Cookies from 'universal-cookie';
+import { connect } from 'react-redux';
 
 const cookies = new Cookies();
 
 class Login extends Component {
-  state = {
-    redirect: false,
-    status: '',
-    username: '',
-    password: ''
+  constructor() {
+    super();
+    this.state = {
+      redirect: false,
+      status: '',
+      username: '',
+      password: '',
+      login_response: ''
+    }
   }
 
   loginuser = (e) => {
@@ -21,9 +26,11 @@ class Login extends Component {
         password: e.password.value
       }).then((response) => {
         var login_response = response.data
-
+        console.log('login_response', login_response)
         if (login_response !== 0) {
           cookies.set('login', login_response, { path: '/' });
+          this.props.handleLogin(login_response)
+          this.setState({ login_response })
           self.setState({
             redirect: true
           });
@@ -43,7 +50,9 @@ class Login extends Component {
 
   render() {
     return (
+
       <div>
+        {console.log('props', this.props)}
         {this.renderRedirect()}
         <div className="container" style={{ marginTop: 150 }}>
           <div className="row">
@@ -61,11 +70,17 @@ class Login extends Component {
                   <label htmlFor="exampleInputPassword1">Password</label>
                   <input type="password" ref="password" className="form-control" placeholder="Masukan Password" />
                 </div>
-                <div className="form-group form-check" style={{ marginTop: 30 }}>
+                {/* <div className="form-group form-check" style={{ marginTop: 30 }}>
                   <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                   <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                </div>
-                <button type="button" onClick={() => { this.loginuser(this.refs) }} className="btn btn-primary">Login</button>
+                </div> */}
+                <button
+                  type="button"
+                  style={{ marginTop: 10 }}
+                  onClick={() => { this.loginuser(this.refs) }}
+                  // onClick={this.props.handleLogin}
+                  className="btn btn-primary">Login
+                </button>
               </form>
             </div>
             <div className="col-md-6" style={{ marginTop: 30 }}>
@@ -89,4 +104,17 @@ class Login extends Component {
     )
   }
 }
-export default Login;
+
+const mapStateToProps = (state) => {
+  return {
+    redirect: state
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleLogin: (data) => dispatch({ type: 'LOGIN', id: data })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
