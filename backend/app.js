@@ -87,6 +87,19 @@ app.listen(port, () => {
 });
 
 /**Ambil data untuk tampilan Properti baru */
+app.post('/getNewRelease', (req, res) => {
+    var sql = `SELECT * FROM view_all_product`;
+    dbs.query(sql, (err, result) => {
+        console.log(result, 'view_all_product')
+        if (err) {
+            throw err;
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+/**Ambil data untuk tampilan Properti baru */
 app.post('/getNewProperty', (req, res) => {
     var sql = `SELECT * FROM table_addproduk LIMIT 3`;
     dbs.query(sql, (err, result) => {

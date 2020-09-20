@@ -31,11 +31,13 @@ class Product_detail extends Component {
       console.log(getData.data)
       var id = getData.data[0].id;
       var id_username = getData.data[0].id_username;
-      var harga = getData.data[0].harga;
+      var harga = parseInt(getData.data[0].harga);
       var posting = getData.data[0].posting;
       var alamat = getData.data[0].alamat;
       var deskripsi = getData.data[0].deskripsi;
       var foto_produk = getData.data[0].foto_produk;
+      var convert = 'IDR ' + harga.toFixed().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+
 
       axios.get('http://localhost:8002/profil_detail/' + id_produk).then((getDataprofile) => {
         console.log(getDataprofile.data)
@@ -46,7 +48,7 @@ class Product_detail extends Component {
         this.setState(
           {
             id: id,
-            harga: harga,
+            harga: convert,
             alamat: alamat,
             posting: posting,
             deskripsi: deskripsi,
@@ -131,17 +133,18 @@ class Product_detail extends Component {
           <div className="row">
             <div className="col-md-8">
               <div style={{ borderBottom: '1px dotted grey' }}>
-                <h2>Rp. {this.state.harga}</h2>
+                <h2>{this.state.harga}</h2>
                 <h3>{this.state.posting}</h3>
                 <p>{this.state.alamat}</p>
               </div>
-              <div style={{ borderBottom: '1px dotted grey' }}>
+              <div style={{ borderBottom: '1px dotted grey', marginBottom: 20 }}>
                 <p>{this.state.deskripsi}</p>
               </div>
-              <div style={{ borderBottom: '1px dotted grey', padding: 20 }}>
+
+              <div style={{ borderBottom: '1px dotted grey'}}>
                 <h4>Informasi Properti</h4>
                 <div>
-                  <ul className="nav nav-tabs">
+                  <ul className="nav nav-tabs" style={{marginBottom: 10}}>
                     <li className="nav-item">
                       <a className="nav-link active show" data-toggle="tab" href="#profile">Spesifikasi</a>
                     </li>
@@ -149,7 +152,7 @@ class Product_detail extends Component {
                       <a className="nav-link" data-toggle="tab" href="#home">Fasilitas</a>
                     </li>
                   </ul>
-                  <div id="myTabContent" className="tab-content">
+                  <div id="myTabContent" className="tab-content" style={{paddingLeft: 10}}>
                     <div className="tab-pane fade" id="home">
                       <p>Fasilitas yang di Dapat:</p>
                       * Carport <p />

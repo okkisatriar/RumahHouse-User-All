@@ -51,12 +51,13 @@ class Dashboard extends Component {
       var urutan = index + 1;
       var id = isi.id;
       var posting = isi.posting;
-      var harga = isi.harga;
+      var harga = parseInt(isi.harga);
       var foto_produk = isi.foto_produk;
+      var convert = 'IDR ' + harga.toFixed().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
       return <tr key={index}>
         <td>{urutan}</td>
         <td><img src={'http://localhost:8002/tampungfile/' + foto_produk} width={65} height={50} />&nbsp; &nbsp;{posting}</td>
-        <td>IDR {harga} </td>
+        <td>{convert} </td>
         <td>
           <Link
             to={{ pathname: '/Edit_iklan/', state: { id: id } }}
@@ -80,11 +81,10 @@ class Dashboard extends Component {
         {/* DETAIL */}
         <div className="container" style={{ marginTop: 50 }}>
           <div className="row">
-            <div className="col-md-2">
+            <div className="col-6">
               <h4>Iklan Saya</h4>
             </div>
-            <div className="col-md-8" />
-            <div className="col-md-2">
+            <div className="col-6" style={{textAlign: "right"}}>
               <Link to="/Pasang_iklan"><button type="button" className="btn btn-success btn-lg">+ Iklan Baru</button></Link>
             </div>
           </div>
@@ -98,15 +98,15 @@ class Dashboard extends Component {
           </ul>
           {/* Nav Home */}
           <div id="myTabContent" className="tab-content">
-            <div className="tab-pane fade active show" id="home">
+            <div className="tab-pane fade active show table-responsive" id="home">
               {/* Table */}
               <table className="table table-hover" style={{ marginTop: 30 }}>
                 <thead style={{ padding: 30 }}>
                   <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Properti</th>
-                    <th scope="col">Harga</th>
-                    <th scope="col">Action</th>
+                    <th>No.</th>
+                    <th>Properti</th>
+                    <th>Harga</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -5,9 +5,17 @@ import { Link } from 'react-router-dom';
 class Content extends Component {
   state = {
     propertibaru: [],
-    propertipopuler: []
+    propertipopuler: [],
+    propertiNewRelease: []
   }
   componentDidMount = () => {
+    axios.post('http://localhost:8002/getNewRelease').then((getData) => {
+      console.log('propertiNewRelease',getData.data)
+      this.setState({
+        propertiNewRelease: getData.data
+      });
+    });
+
     axios.post('http://localhost:8002/getNewProperty').then((getData) => {
       // console.log(getData.data)
       this.setState({
@@ -23,12 +31,33 @@ class Content extends Component {
   }
 
   render() {
+    const newRelease = this.state.propertiNewRelease.map((isi, index) => {
+      var urutan = index + 1;
+      var id = isi.id;
+      var posting = isi.posting;
+      var deskripsi = isi.deskripsi_produk;
+      console.log('deskripsi', deskripsi)
+      var fotoProperti = isi.foto_produk;
+      // console.log(id)
+      return <div key={id} className="col-md-4" style={{ marginTop: 50 }}>
+        <div className="card">
+          <img className="card-img-top" src={'http://localhost:8002/tampungfile/' + fotoProperti} height={280} alt="Card image cap" />
+          <div className="card-body">
+            <h5 className="card-title">{posting}</h5>
+            <p className="card-text">{deskripsi}</p>
+            <Link to={{ pathname: '/Product_detail/' + id, state: { id: id } }} className="btn btn-primary">View Detail</Link>
+          </div>
+        </div>
+      </div>
+    })
+
     const propertyBaru = this.state.propertibaru.map((isi, index) => {
       var urutan = index + 1;
       var id = isi.id;
       var posting = isi.posting;
       var deskripsi = isi.deskripsi;
       var fotoProperti = isi.foto_produk;
+     
       // console.log(id)
       return <div key={id} className="col-md-4" style={{ marginTop: 50 }}>
         <div className="card">
@@ -72,7 +101,6 @@ class Content extends Component {
       </div>
     })
 
-
     return (
       <div>
         {/* CAROUSEL */}
@@ -104,6 +132,16 @@ class Content extends Component {
                 <span className="sr-only">Next</span>
               </a>
             </div>
+          </div>
+        </div>
+        
+        {/* NEW RELEAS */}
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-12" style={{ textAlign: 'center', marginTop: 50 }}>
+              <h1><b>NEW RELEASE</b></h1>
+            </div>
+            {newRelease}
           </div>
         </div>
 

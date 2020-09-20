@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import { Route } from 'react-router-dom';
+import { createStore } from 'redux';
+import Cookies from 'universal-cookie';
 import Checkout from './component/Checkout';
 import Content from './component/Content';
 import Dashboard from './component/Dashboard';
@@ -18,11 +19,13 @@ import Profile from './component/Profile';
 import Register from './component/Register';
 import Wishlist from './component/Wishlist';
 
+const cookies = new Cookies();
 var globalState = {
-  login: false,
-  id: null
+  login: cookies.get('login') ? true : false,
+  id: cookies.get('login') ? cookies.get('login') : null
 }
 
+console.log('222',cookies.get('login'))
 // const createStore = redux.createStore;
 const rootReducer = (state = globalState, action) => {
   switch (action.type) {
@@ -42,6 +45,7 @@ const rootReducer = (state = globalState, action) => {
 
 
 const store = createStore(rootReducer);
+console.log('get store', store.getState())
 class App extends Component {
   render() {
     return (

@@ -16,6 +16,9 @@ class Edit_iklan extends Component {
     harga: '',
     status: '',
     deskripsi: '',
+    getFoto_produk: '',
+    getFoto_produk2: '',
+    getFoto_produk3: ''
   }
 
   componentDidMount() {
@@ -24,9 +27,8 @@ class Edit_iklan extends Component {
   }
 
   getDetailIklan = (id_produk) => {
-    axios.post('http://localhost:8002/Edit_iklan', {
-      id_produk: id_produk
-    }).then((hasilambil) => {
+    axios.post('http://localhost:8002/Edit_iklan', { id_produk: id_produk }).then((hasilambil) => {
+      console.log('hasilambil', hasilambil)
       this.setState({
         id: hasilambil.data[0].id,
         posting: hasilambil.data[0].posting,
@@ -34,6 +36,9 @@ class Edit_iklan extends Component {
         harga: hasilambil.data[0].harga,
         status: hasilambil.data[0].status,
         deskripsi: hasilambil.data[0].deskripsi,
+        getFoto_produk: hasilambil.data[0].foto_produk,
+        getFoto_produk2: hasilambil.data[0].foto_produk2,
+        getFoto_produk3: hasilambil.data[0].foto_produk3,
       })
     })
 
@@ -52,6 +57,7 @@ class Edit_iklan extends Component {
   }
 
   onchange = (e) => {
+    console.log(e.target.files, 'onchange')
     switch (e.target.name) {
       case 'foto_produk':
         this.setState({
@@ -70,6 +76,7 @@ class Edit_iklan extends Component {
   }
 
   value = (e) => {
+    console.log(e, 'e')
     var id = e.id.value;
     var posting = e.posting.value;
     var alamat = e.alamat.value;
@@ -125,81 +132,161 @@ class Edit_iklan extends Component {
         <div>
           <div className="container" style={{ marginTop: 80 }}>
             <div className="row">
-              <div className="col-md-3" />
-              <div className="col-md-6" style={{ backgroundColor: 'rgb(192, 188, 181)', padding: 30, borderRadius: '1%' }}>
+              <div className="col-md-12" style={{ backgroundColor: 'rgb(192, 188, 181)', padding: 30, borderRadius: '1%' }}>
                 <div className="panel-heading">
                   <h3><b>Edit Iklan</b></h3>
                 </div>
                 <div className="panel-body">
                   <form onSubmit={this.updateData} encType="multipart/form-data">
-                    <div className="form-row">
-                      <input type="hidden" className="form-control" ref="id" defaultValue={this.state.id} />
-                      <div className="form-group col-md-12">
-                        <label htmlFor="namadepan">Judul Iklan</label>
-                        <input ref="posting" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Judul Iklan" />
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-row">
+                          <input type="hidden" className="form-control" ref="id" defaultValue={this.state.id} />
+                          <div className="form-group col-md-12">
+                            <label htmlFor="posting">Judul Iklan</label>
+                            <input ref="posting" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Judul Iklan" />
+                          </div>
+                          <div className="form-group col-md-12">
+                            <label htmlFor="alamat">Alamat</label>
+                            <input ref="alamat" type="text" className="form-control" defaultValue={this.state.alamat} placeholder="Alamat" />
+                          </div>
+                          <div className="form-group col-md-12">
+                            <label htmlFor="harga">Harga</label>
+                            <input ref="harga" type="text" className="form-control" defaultValue={this.state.harga} placeholder="Harga" />
+                          </div>
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputState">Status</label>
+                            <select ref="status" value={this.state.status} onChange={this.onchange} className="form-control">
+                              {tampilstatus_edit}
+                            </select>
+                          </div>
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputState">Kategori</label>
+                            <select ref="kategori" className="form-control">
+                              <option selected>Pilih</option>
+                              <option defaultValue={this.state.kategori}>Apartment</option>
+                              <option ref="rumah">Rumah</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <div className="form-group col-md-12">
+                            <label htmlFor="deskripsi">Deskripsi</label>
+                            <input
+                              ref="deskripsi"
+                              className="form-control"
+                              defaultValue={this.state.deskripsi}
+                              placeholder="Deskripsi"
+                            />
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <div className="form-group col-md-12">
+                            <label htmlFor="foto1">Foto 1</label>
+                            <img style={{ maxHeight: 200 }} src={'http://localhost:8002/tampungfile/' + this.state.getFoto_produk} className="rounded mx-auto d-block" alt={this.state.getFoto_produk}></img>
+                          </div>
+                          <div className="input-group mb-3">
+                            <div className="custom-file">
+                              <input name="foto_produk" onChange={this.onchange} type="file" className="custom-file-input" id="inputGroupFile01"></input>
+                              <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.getFoto_produk ? this.state.getFoto_produk : 'Choose file'}</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <div className="form-group col-md-12">
+                            <label htmlFor="foto1">Foto 2</label>
+                            <img style={{ maxHeight: 200 }} src={'http://localhost:8002/tampungfile/' + this.state.getFoto_produk2} className="rounded mx-auto d-block" alt={this.state.getFoto_produk2}></img>
+                          </div>
+                          <div className="input-group mb-3">
+                            <div className="custom-file">
+                              <input name="foto_produk2" onChange={this.onchange} type="file" className="custom-file-input" id="inputGroupFile02"></input>
+                              <label className="custom-file-label" htmlFor="inputGroupFile02">{this.state.getFoto_produk2 ? this.state.getFoto_produk2 : 'Choose file'}</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <div className="form-group col-md-12">
+                            <label htmlFor="foto1">Foto 3</label>
+                            <img style={{ maxHeight: 200 }} src={'http://localhost:8002/tampungfile/' + this.state.getFoto_produk3} className="rounded mx-auto d-block" alt={this.state.getFoto_produk3}></img>
+                          </div>
+                          <div className="input-group mb-3">
+                            <div className="custom-file">
+                              <input name="foto_produk3" onChange={this.onchange} type="file" className="custom-file-input" id="inputGroupFile03"></input>
+                              <label className="custom-file-label" htmlFor="inputGroupFile03">{this.state.getFoto_produk3 ? this.state.getFoto_produk3 : 'Choose file'}</label>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="form-group col-md-12">
-                        <label htmlFor="namadepan">Alamat</label>
-                        <input ref="alamat" type="text" className="form-control" defaultValue={this.state.alamat} placeholder="Alamat" />
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="luasBangunan">Luas bangunan</label>
+                          <input ref="luasBangunan" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Luas bangunan" />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="luasTanah">Luas tanah</label>
+                          <input ref="luasTanah" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Luas tanah" />
+                        </div>
+                        <div className="form-group">                            
+                        <label htmlFor="kamarTidur">Kamar tidur</label>
+                          <input ref="kamarTidur" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Kamar tidur" />
+                        </div>
+                        <div className="form-group">                            
+                        <label htmlFor="kamarMandi">Kamar Mandi</label>
+                          <input ref="kamarMandi" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Kamar Mandi" />
+                        </div>
+                        <div className="form-group">                            
+                        <label htmlFor="lantai">Lantai</label>
+                          <input ref="lantai" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Lantai" />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="fasilitas">Fasilitas</label>
+                          <div className="row">
+                            <div className="col-6"><input type="checkbox" /> AC</div>
+                            <div className="col-6"><input type="checkbox" /> Water heater</div>
+                          </div>
+                          <div className="row">
+                            <div className="col-6"><input type="checkbox" /> Swimming Poop</div>
+                            <div className="col-6"><input type="checkbox" /> Refrigerator</div>
+                          </div>
+                          <div className="row">
+                            <div className="col-6"><input type="checkbox" /> Carport</div>
+                            <div className="col-6"><input type="checkbox" /> Stove</div>
+                          </div>
+                          <div className="row">
+                            <div className="col-6"><input type="checkbox" /> Garden</div>
+                            <div className="col-6"><input type="checkbox" /> Microwave</div>
+                          </div>
+                          <div className="row">
+                            <div className="col-6"><input type="checkbox" /> Garasi</div>
+                            <div className="col-6"><input type="checkbox" /> Oven</div>
+                          </div>
+                          <div className="row">
+                            <div className="col-6"><input type="checkbox" /> Telephone</div>
+                            <div className="col-6"><input type="checkbox" /> Fire Extenguisher</div>
+                          </div>
+                          <div className="row">
+                            <div className="col-6"><input type="checkbox" /> PAM</div>
+                            <div className="col-6"><input type="checkbox" /> Gordyn</div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="form-group col-md-12">
-                        <label htmlFor="harga">Harga</label>
-                        <input ref="harga" type="text" className="form-control" defaultValue={this.state.harga} placeholder="Harga" />
-                      </div>
-                      <div className="form-group col-md-6">
-                        <label htmlFor="inputState">Status</label>
-                        <select ref="status" value={this.state.status} onChange={this.onchange} className="form-control">
-                          {tampilstatus_edit}
-                        </select>
-                      </div>
-                      {/* <div className="form-group col-md-6">
-                      <label htmlFor="inputState">Kategori</label>
-                      <select ref="kategori" className="form-control">
-                        <option selected>Pilih</option>
-                        <option defaultValue={this.state.kategori}>Apartment</option>
-                        <option ref="rumah">Rumah</option>
-                      </select>
-                    </div> */}
                     </div>
-                    <div className="form-row">
-                      <div className="form-group col-md-12">
-                        <label htmlFor="deskripsi">Deskripsi</label>
-                        <textarea ref="deskripsi" className="form-control" defaultValue={this.state.deskripsi} style={{ height: 150 }} placeholder="Deskripsi" />
-                      </div>
-                    </div>
-                    <div className="form-row">
-                      <div className="form-group col-md-12">
-                        <label htmlFor="foto1">Foto 1</label>
-                        <input name="foto_produk" onChange={this.change} type="file" className="form-control" />
-                      </div>
-                    </div>
-                    <div className="form-row">
-                      <div className="form-group col-md-12">
-                        <label htmlFor="foto1">Foto 2</label>
-                        <input name="foto_produk2" onChange={this.onchange} type="file" className="form-control" />
-                      </div>
-                    </div>
-                    <div className="form-row">
-                      <div className="form-group col-md-12">
-                        <label htmlFor="foto1">Foto 3</label>
-                        <input name="foto_produk3" onChange={this.onchange} type="file" className="form-control" />
-                      </div>
-                    </div>
-                    <button
-                      type="reset"
-                      className="btn btn-warning"
-                      style={{ marginRight: 10 }}
-                      onClick={() => this.handleCancel()}>Cancel
+                    <div style={{ float: "right", marginTop: 10 }}>
+                      <button
+                        type="reset"
+                        className="btn btn-warning"
+                        style={{ marginRight: 10 }}
+                        onClick={() => this.handleCancel()}>Cancel
                     </button>
-                    <button
-                      type="submit"
-                      onClick={() => this.value(this.refs)}
-                      className="btn btn-primary">Simpan
+                      <button
+                        type="submit"
+                        onClick={() => this.value(this.refs)}
+                        className="btn btn-primary">Simpan
                     </button>
+                    </div>
                   </form>
                 </div>
               </div>
-              <div className="col-md-3" />
             </div>
           </div>
         </div>

@@ -10,14 +10,10 @@ class Logout extends Component {
 
     if (cookies.get('login') === undefined) {
       this.props.handleLogOut()
-      return <Redirect to="/" />
+      return (
+        <Redirect to="/" />
+      )
     }
-
-    return (
-      <div>
-
-      </div>
-    )
   }
 }
 
