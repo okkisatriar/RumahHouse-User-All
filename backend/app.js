@@ -228,13 +228,18 @@ app.get('/grabdatauser/:id', (req, res) => {
 });
 
 app.post('/dataiklan', (req, res) => {
-    // console.log(req.body)
+    console.log(req.body)
     var id_username = req.body.id_username; // nanti di isi id user dari cookies.get yg di dapat
     var posting = req.body.posting;
     var harga = req.body.harga;
     var alamat = req.body.alamat;
     var status = req.body.status;
     var kategori = 1;
+    var kamar_mandi = req.body.kamarMandi;
+    var kamar_tidur = req.body.kamarTidur;
+    var luas_bangunan = req.body.luasBangunan;
+    var luas_tanah = req.body.luasTanah;
+    var lantai = req.body.lantai;
     var deskripsi = req.body.deskripsi;
     var foto_produk = req.files.foto_produk.name;
     var foto_produk2 = req.files.foto_produk2.name;
@@ -253,7 +258,7 @@ app.post('/dataiklan', (req, res) => {
             }
             else {
                 console.log('Foto 1 terupload sukses')
-                var sql = `INSERT INTO table_addproduk VALUES ("${''}", "${id_username}", "${posting}", "${harga}", "${alamat}", "${kategori}", "${status}", "${deskripsi}", "${foto_produk}", "${foto_produk2}", "${foto_produk3}", "${tanggaldibuat}")`;
+                var sql = `INSERT INTO table_addproduk VALUES ("${''}", "${id_username}", "${posting}", "${harga}", "${alamat}", "${status}", "${luas_bangunan}", "${kategori}", "${deskripsi}", "${foto_produk}", "${foto_produk2}", "${foto_produk3}", "${tanggaldibuat}", "${luas_tanah}", "${kamar_tidur}", "${kamar_mandi}", "${lantai}"), "${tanggaldibuat}")`;
                 dbs.query(sql, (err, result) => {
 
                     console.log('2', err)
@@ -293,9 +298,9 @@ app.post('/dataprofile/:id', (req, res) => {
     var id_user = req.params.id;
     var sql = `SELECT posting, harga, master_user_admin.namadepan, table_addproduk.id, master_user_admin.alamat_user_admin, status, foto_produk, namadepan FROM table_addproduk INNER JOIN master_user_admin ON table_addproduk.id_username=master_user_admin.id WHERE id_username="${id_user}"`;
     dbs.query(sql, (err, result) => {
-        console.log('result',result)
-        console.log('err',err)
-        console.log('sql',sql)
+        console.log('result', result)
+        console.log('err', err)
+        console.log('sql', sql)
         if (err) {
             throw err;
         } else {
@@ -347,13 +352,18 @@ app.post('/Edit_iklan', (req, res) => {
 });
 
 app.post('/updateiklan', (req, res) => {
-    // console.log(req.body)
+    console.log('req.body',req.body)
     // var id_username = req.body.id_username;// nanti di isi id user dari cookies.get yg di dapat
     var id = req.body.id;
     var posting = req.body.posting;
     var harga = req.body.harga;
     var alamat = req.body.alamat;
     var status = req.body.status;
+    var kamar_mandi = req.body.kamarMandi;
+    var kamar_tidur = req.body.kamarTidur;
+    var luas_bangunan = req.body.luasBangunan;
+    var luas_tanah = req.body.luasTanah;
+    var lantai = req.body.lantai;
     var deskripsi = req.body.deskripsi;
     var foto_produk = req.files.foto_produk.name;
     var foto_produk2 = req.files.foto_produk2.name;
@@ -371,7 +381,7 @@ app.post('/updateiklan', (req, res) => {
             }
             else {
                 console.log('Foto 1 terupload sukses')
-                var sql = `UPDATE table_addproduk SET posting = "${posting}", harga = "${harga}", alamat = "${alamat}", status = "${status}", deskripsi = "${deskripsi}", foto_produk = "${foto_produk}", tanggaldibuat = "${tanggaldibuat}", foto_produk2 = "${foto_produk2}", foto_produk3 = "${foto_produk3}" WHERE id="${id}"`;
+                var sql = `UPDATE table_addproduk SET posting = "${posting}", harga = "${harga}", alamat = "${alamat}", status = "${status}", luas_bangunan = "${luas_bangunan}", deskripsi = "${deskripsi}", foto_produk = "${foto_produk}", tanggaldibuat = "${tanggaldibuat}", foto_produk2 = "${foto_produk2}", foto_produk3 = "${foto_produk3}", luas_tanah = "${luas_tanah}", kamar_tidur = "${kamar_tidur}", kamar_mandi = "${kamar_mandi}", lantai = "${lantai}" WHERE id="${id}"`;
                 dbs.query(sql, (err, result) => {
                     if (err) {
                         throw err;

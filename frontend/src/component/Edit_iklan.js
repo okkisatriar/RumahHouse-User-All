@@ -15,6 +15,11 @@ class Edit_iklan extends Component {
     alamat: '',
     harga: '',
     status: '',
+    luasBangunan: '',
+    luasTanah: '',
+    kamarTidur: '',
+    kamarMandi: '',
+    lantai: '',
     deskripsi: '',
     getFoto_produk: '',
     getFoto_produk2: '',
@@ -28,13 +33,17 @@ class Edit_iklan extends Component {
 
   getDetailIklan = (id_produk) => {
     axios.post('http://localhost:8002/Edit_iklan', { id_produk: id_produk }).then((hasilambil) => {
-      console.log('hasilambil', hasilambil)
       this.setState({
         id: hasilambil.data[0].id,
         posting: hasilambil.data[0].posting,
         alamat: hasilambil.data[0].alamat,
         harga: hasilambil.data[0].harga,
         status: hasilambil.data[0].status,
+        kamarMandi: hasilambil.data[0].kamar_mandi,
+        kamarTidur: hasilambil.data[0].kamar_tidur,
+        luasBangunan: hasilambil.data[0].luas_bangunan,
+        luasTanah: hasilambil.data[0].luas_tanah,
+        lantai: hasilambil.data[0].lantai,
         deskripsi: hasilambil.data[0].deskripsi,
         getFoto_produk: hasilambil.data[0].foto_produk,
         getFoto_produk2: hasilambil.data[0].foto_produk2,
@@ -82,6 +91,11 @@ class Edit_iklan extends Component {
     var alamat = e.alamat.value;
     var harga = e.harga.value;
     var status = e.status.value;
+    var kamarMandi = e.kamarMandi.value;
+    var kamarTidur = e.kamarTidur.value;
+    var luasBangunan = e.luasBangunan.value;
+    var luasTanah = e.luasTanah.value;
+    var lantai = e.lantai.value;
     var deskripsi = e.deskripsi.value;
     this.setState({
       id: id,
@@ -89,6 +103,11 @@ class Edit_iklan extends Component {
       alamat: alamat,
       status: status,
       harga: harga,
+      kamarMandi: kamarMandi,
+      kamarTidur: kamarTidur,
+      luasBangunan: luasBangunan,
+      luasTanah: luasTanah,
+      lantai: lantai,
       deskripsi: deskripsi,
     })
   }
@@ -106,6 +125,11 @@ class Edit_iklan extends Component {
     formData.append('alamat', this.state.alamat);
     formData.append('harga', this.state.harga);
     formData.append('status', this.state.status);
+    formData.append('kamarMandi', this.state.kamarMandi);
+    formData.append('kamarTidur', this.state.kamarTidur);
+    formData.append('luasBangunan', this.state.luasBangunan);
+    formData.append('luasTanah', this.state.luasTanah);
+    formData.append('lantai', this.state.lantai);
     formData.append('deskripsi', this.state.deskripsi);
     axios.post('http://localhost:8002/updateiklan/', formData).then((response) => {
       if (response.statusText === 'OK') {
@@ -220,23 +244,23 @@ class Edit_iklan extends Component {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="luasBangunan">Luas bangunan</label>
-                          <input ref="luasBangunan" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Luas bangunan" />
+                          <input ref="luasBangunan" type="text" className="form-control" defaultValue={this.state.luasBangunan} placeholder="Luas bangunan" />
                         </div>
                         <div className="form-group">
-                          <label htmlFor="luasTanah">Luas tanah</label>
-                          <input ref="luasTanah" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Luas tanah" />
+                          <label htmlFor="luasTanah">Luas Tanah</label>
+                          <input ref="luasTanah" type="text" className="form-control" defaultValue={this.state.luasTanah} placeholder="Luas tanah" />
                         </div>
                         <div className="form-group">                            
                         <label htmlFor="kamarTidur">Kamar tidur</label>
-                          <input ref="kamarTidur" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Kamar tidur" />
+                          <input ref="kamarTidur" type="text" className="form-control" defaultValue={this.state.kamarTidur} placeholder="Kamar tidur" />
                         </div>
                         <div className="form-group">                            
                         <label htmlFor="kamarMandi">Kamar Mandi</label>
-                          <input ref="kamarMandi" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Kamar Mandi" />
+                          <input ref="kamarMandi" type="text" className="form-control" defaultValue={this.state.kamarMandi} placeholder="Kamar Mandi" />
                         </div>
                         <div className="form-group">                            
                         <label htmlFor="lantai">Lantai</label>
-                          <input ref="lantai" type="text" className="form-control" defaultValue={this.state.posting} placeholder="Lantai" />
+                          <input ref="lantai" type="text" className="form-control" defaultValue={this.state.lantai} placeholder="Lantai" />
                         </div>
                         <div className="form-group">
                           <label htmlFor="fasilitas">Fasilitas</label>
